@@ -1,8 +1,8 @@
 import { Emitter } from '@rocket.chat/emitter';
 
 import { CachedCollectionManager } from '../../../../app/ui-cached-collection/client';
-import { slashCommands } from '../../../../app/utils/client';
 import { sdk } from '../../../../app/utils/client/lib/SDKClient';
+import { ui } from '../../../../client/lib/ui';
 
 export const AppEvents = Object.freeze({
 	APP_ADDED: 'app/added',
@@ -51,7 +51,7 @@ export class AppWebsocketReceiver extends Emitter {
 			sdk.rest
 				.get('/v1/commands.get', { command })
 				.then((result) => {
-					slashCommands.add(result.command);
+					ui.addSlashCommand(result.command);
 				})
 				.catch((error) => {
 					if (retries - 1 === 0) {
@@ -68,8 +68,6 @@ export class AppWebsocketReceiver extends Emitter {
 	};
 
 	onCommandRemovedOrDisabled = (command) => {
-		delete slashCommands.commands[command];
+		ui.removeSlashCommand(command);
 	};
-
-	// onActionsChanged = () => loadButtons();
 }
