@@ -19,7 +19,7 @@ declare module '@rocket.chat/ui-contexts' {
 }
 
 export const useDeviceManagement = () => {
-	const enabled = useHasLicenseModule('device-management');
+	const enabled = useHasLicenseModule('device-management') === true;
 	const canView = usePermission('view-device-management');
 
 	const enabledForAdmin = enabled === true && canView;

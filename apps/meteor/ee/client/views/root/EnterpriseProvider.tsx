@@ -1,8 +1,12 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
+import { useAuditing } from './hooks/useAuditing';
 import { useDeviceManagement } from './hooks/useDeviceManagement';
 import { useEngagementDashboard } from './hooks/useEngagementDashboard';
+import { useFederationSlashCommand } from './hooks/useFederationSlashCommand';
+import { useGameCenter } from './hooks/useGameCenter';
+import { useGuestPermissions } from './hooks/useGuestPermissions';
 import { useReadReceipts } from './hooks/useReadReceipts';
 
 type EnterpriseProviderProps = {
@@ -10,9 +14,13 @@ type EnterpriseProviderProps = {
 };
 
 const EnterpriseProvider = ({ children }: EnterpriseProviderProps) => {
-	useReadReceipts();
-	useEngagementDashboard();
+	useAuditing();
 	useDeviceManagement();
+	useEngagementDashboard();
+	useFederationSlashCommand();
+	useGameCenter();
+	useGuestPermissions();
+	useReadReceipts();
 
 	return <>{children}</>;
 };

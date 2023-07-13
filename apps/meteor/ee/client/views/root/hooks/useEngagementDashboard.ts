@@ -14,10 +14,10 @@ declare module '@rocket.chat/ui-contexts' {
 }
 
 export const useEngagementDashboard = () => {
-	const enabled = useHasLicenseModule('engagement-dashboard');
+	const enabled = useHasLicenseModule('engagement-dashboard') === true;
 	const canView = usePermission('view-engagement-dashboard');
 
-	const enabledForAdmin = enabled === true && canView;
+	const enabledForAdmin = enabled && canView;
 
 	useEffect(() => {
 		if (!enabledForAdmin) {
