@@ -19,13 +19,11 @@ declare module '@rocket.chat/ui-contexts' {
 }
 
 export const useDeviceManagement = () => {
-	const enabled = useHasLicenseModule('device-management') === true;
-	const canView = usePermission('view-device-management');
-
-	const enabledForAdmin = enabled === true && canView;
+	const licensed = useHasLicenseModule('device-management') === true;
+	const permitted = usePermission('view-device-management');
 
 	useEffect(() => {
-		if (!enabledForAdmin) {
+		if (!licensed || !permitted) {
 			return;
 		}
 
@@ -44,10 +42,10 @@ export const useDeviceManagement = () => {
 			unregisterAdminRoute();
 			unregisterAdminSidebarItem('Device_Management');
 		};
-	}, [enabledForAdmin]);
+	}, [licensed, permitted]);
 
 	useEffect(() => {
-		if (!enabled) {
+		if (!licensed) {
 			return;
 		}
 
@@ -66,5 +64,5 @@ export const useDeviceManagement = () => {
 			unregisterAccountRoute();
 			unregisterSidebarItem('Manage_Devices');
 		};
-	}, [enabled]);
+	}, [licensed]);
 };

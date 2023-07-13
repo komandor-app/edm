@@ -14,13 +14,11 @@ declare module '@rocket.chat/ui-contexts' {
 }
 
 export const useEngagementDashboard = () => {
-	const enabled = useHasLicenseModule('engagement-dashboard') === true;
-	const canView = usePermission('view-engagement-dashboard');
-
-	const enabledForAdmin = enabled && canView;
+	const licensed = useHasLicenseModule('engagement-dashboard') === true;
+	const permitted = usePermission('view-engagement-dashboard');
 
 	useEffect(() => {
-		if (!enabledForAdmin) {
+		if (!licensed || !permitted) {
 			return;
 		}
 
@@ -39,5 +37,5 @@ export const useEngagementDashboard = () => {
 			unregisterAdminRoute();
 			unregisterAdminSidebarItem('Engagement Dashboard');
 		};
-	}, [enabledForAdmin]);
+	}, [licensed, permitted]);
 };
